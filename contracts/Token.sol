@@ -1,6 +1,6 @@
 pragma solidity ^0.4.18;
 
-import 'zeppelin-solidity/contracts/math/SafeMath.sol';
+// import "zeppelin-solidity/contracts/math/SafeMath.sol";
 
 /**
  * Token
@@ -9,7 +9,7 @@ import 'zeppelin-solidity/contracts/math/SafeMath.sol';
  * https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20.md
  */
 contract Token {
-    using SafeMath for uint;
+    // using SafeMath for uint;
 
     event Transfer(
         address indexed _from,
@@ -70,9 +70,9 @@ contract Token {
      * @return True if the transfer succeeded, false if not.
      */
     function transfer(address _to, uint _value) public returns (bool success) {
-        balances[msg.sender] = balances[msg.sender].sub(_value);
-        balances[_to] = balances[_to].add(_value);
-        Transfer(msg.sender, _to, _value);
+        balances[msg.sender] = balances[msg.sender] - (_value);
+        balances[_to] = balances[_to] + (_value);
+         Transfer(msg.sender, _to, _value);
         return true;
     }
 
@@ -90,10 +90,10 @@ contract Token {
         public
         returns (bool success)
     {
-        balances[_from] = balances[_from].sub(_value);
-        allowed[_from][msg.sender] = allowed[_from][msg.sender].sub(_value);
-        balances[_to] = balances[_to].add(_value);
-        Transfer(_from, _to, _value);
+        balances[_from] = balances[_from]- (_value);
+        allowed[_from][msg.sender] = allowed[_from][msg.sender] - (_value);
+        balances[_to] = balances[_to] + (_value);
+         Transfer(_from, _to, _value);
         return true;
     }
 
@@ -108,7 +108,7 @@ contract Token {
         returns (bool success)
     {
         allowed[msg.sender][_spender] = _value;
-        Approval(msg.sender, _spender, _value);
+         Approval(msg.sender, _spender, _value);
         return true;
     }
 

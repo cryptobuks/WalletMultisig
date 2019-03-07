@@ -3,7 +3,7 @@
         "host": "localhost",
         "user": "root",
         "password": "India@1234",
-        "database": "modern_slavery",
+        "database": "multisig",
         "connectionLimit":100,
         "driver": "mysql",
         "multipleStatements": true
@@ -12,7 +12,7 @@
     	"host": {"ENV": "localhost"},
         "user": {"ENV": "root"},
         "password": {"ENV": "root"},
-        "database": {"ENV": "modern_slavery"},
+        "database": {"ENV": "multisig"},
         "driver": "mysql",
         "multipleStatements": true
     },

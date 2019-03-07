@@ -1,7 +1,7 @@
-const Web3 = require('web3');
-const config = require('../config/contract.json');
-const contract = require('../config/contractAddress.json');
-const blockchain = require('../lib/deploy');
+const Web3 = require("web3");
+const config = require("../config/contract.json");
+const contract = require("../config/contractAddress.json");
+const blockchain = require("../lib/deploy");
 //TODO
 var web3 = new Web3(new Web3.providers.HttpProvider(config.localBlockchain));
 web3.eth.defaultAccount = web3.eth.accounts[0];
@@ -10,20 +10,25 @@ var unlockTime = 20;
 //END TODO
 
 const smartContractInstance = (contractNameFromJsonFile) => {
-    return new Promise((resolve, reject) => {
-        if (web3.isConnected()) {
-            blockchain.unlockUserAccount(web3.eth.accounts[0], "", unlockTime).then((res) => {
-                let myContract = web3.eth.contract(contract[contractNameFromJsonFile].abi).at(contract[contractNameFromJsonFile].address);
-                resolve(myContract);
-            }).catch((err) => {
-                reject(err);
-            });
-        }
-        else {
-            reject("Unable to create contract instance")
-        }
-    })
-}
+	return new Promise((resolve, reject) => {
+		if (web3.isConnected()) {
+			blockchain.unlockUserAccount(web3.eth.accounts[0], "", unlockTime).then((res) => {
+				if(res) {
+					let myContract = web3.eth.contract(contract[contractNameFromJsonFile].abi).at(contract[contractNameFromJsonFile].address);
+					resolve(myContract);
+				}
+				else {
+					reject("Unable to unlock account");
+				}
+			}).catch((err) => {
+				reject(err);
+			});
+		}
+		else {
+			reject("Unable to create contract instance");
+		}
+	});
+};
 
 // function smartContractInstance(cb) {
 
@@ -45,5 +50,5 @@ const smartContractInstance = (contractNameFromJsonFile) => {
 // }
 
 module.exports = {
-    smartContractInstance
-}
+	smartContractInstance
+};

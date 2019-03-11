@@ -15,7 +15,7 @@ const isPasswordMatches = (data) => {
 	});
 };
 
-module.export = {
+module.exports = {
 	// authenticate,
 	isPasswordMatches
 };

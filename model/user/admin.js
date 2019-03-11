@@ -6,14 +6,18 @@ const query = require("../../migrations/query/user");
  * @param {object} data having email, password, confirmpassword
  */
 const addAdmin = (data) => {
-	return new Promise((resolve, reject)=>  {
-		db.mysqlConnection((connection)=>{
-			connection.query(query.insertIntoUser, data).then(()=>{
-				resolve("User is added");
-			}).catch((err)=>{
-				reject(err);
+	return new Promise((resolve, reject) => {
+		db.mysqlConnection().then((connection) => {
+			connection.query(query.insertIntoUser, data, function (err, result) {
+				if (result) {
+					resolve("User is added");
+				}
+				else {
+					reject(err);
+				}
 			});
-
+		}).catch((err) => {
+			reject(err);
 		});
 	});
 };
@@ -23,17 +27,24 @@ const addAdmin = (data) => {
  * @param {string} email 
  */
 const isEmailExist = (email) => {
-	return new Promise((resolve, reject)=>  {
-		db.mysqlConnection((connection)=>{
-			connection.query(query.getUserCount, email).then((result)=>{
-				if(result.usercount)
-					resolve(true);
-				else
-					resolve(false);
-			}).catch((err)=>{
-				reject(err);
+	return new Promise((resolve, reject) => {
+		db.mysqlConnection().then((connection) => {
+			connection.query(query.getUserCount, email, function (error, result) {
+				if (result) {
+					if (result[0].usercount) {
+						resolve(true);
+					}
+					else {
+						resolve(false);
+					}
+				}
+				else {
+					reject(error);
+				}
 			});
-
+			connection.release();
+		}).catch((error) => {
+			reject(error);
 		});
 	});
 };
@@ -41,7 +52,7 @@ const isEmailExist = (email) => {
 
 
 
-module.export = {
+module.exports = {
 	addAdmin,
 	isEmailExist,
 };

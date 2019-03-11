@@ -1,6 +1,6 @@
 "use strict";
 var loginSql = {
-	getUserPassword: "SELECT password FROM  user WHERE username = ?",
+	getUserPassword: "SELECT password FROM  user WHERE email = ?",
 	getUserData: "SELECT id, username, userType, email, mobile_number, organisationName, code from user WHERE username= ?",
 	insertIntoUser: "INSERT INTO user SET ?",
 	getUserCount: "SELECT count(*) as usercount from user where email = ?",

@@ -24,3 +24,8 @@ body {
     align-self: center;
     margin-left: 180px;
   }
+
+  .failureMessage {
+    color: red;
+    margin-top:50px;
+  }

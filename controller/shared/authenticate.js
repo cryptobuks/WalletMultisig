@@ -7,11 +7,13 @@
 // };
 
 const isPasswordMatches = (data) => {
-	return new Promise((resolve)=>  {
+	return new Promise((resolve, reject)=>  {
+		if(data.email=="" || data.password =="")
+			reject("Please provide email and password");
 		if(data.password === data.confirmpassword)
 			resolve(true);
 		else
-			resolve(false);
+			reject("Password and Confirm Password are not matching");
 	});
 };
 

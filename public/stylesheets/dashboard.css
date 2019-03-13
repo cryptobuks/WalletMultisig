@@ -58,6 +58,7 @@ body {
 
 .navbar-inverse .navbar-collapse, .navbar-inverse .navbar-form {
   border-color: #616060 !important;
+  height: 100px;
 }
 
 .navbar-ex1-collapse{
@@ -65,10 +66,9 @@ body {
 }
 
 .logostyle{
-  width: 50%;
-  max-width: 186px;
-  margin-top: 10px;
-  margin-left: 55px;
+  width: 100%;
+  max-width: 225px;
+
 }
 
 .navbar-inverse .navbar-nav > li > .active{
@@ -121,7 +121,6 @@ a {
   border-top-right-radius: 30px;
   border-bottom-right-radius: 30px;
   border:1px solid #E8E8E8;
-  height: 32px;
 }
 
 .fasett {
@@ -185,4 +184,8 @@ td, th {
 
 tr:nth-child(even) {
   background-color: #dddddd;
+}
+
+.headerMessage {
+  padding-left:1000ox;
 }

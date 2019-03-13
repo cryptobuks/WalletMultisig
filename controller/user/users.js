@@ -36,9 +36,9 @@ const loginUser = (req, res) => {
 					switch(data.type){
 					case 1: res.render("multisig/homeSuperAdmin",{success: true, data: data, layout: "dashboard.hbs"});
 						break;
-					case 2: res.render("multisig/homeUser",{success: true, data: data});
+					case 2: res.render("multisig/homeUser",{success: true, data: data, layout: "dashboardUser.hbs"});
 						break;
-					case 3: res.render("multisig/homeAdmin",{success: true, data: data});
+					case 3: res.render("multisig/homeAdmin",{success: true, data: data, layout: "dashboardAdmin.hbs"});
 					}
 				});
 			});
@@ -48,7 +48,13 @@ const loginUser = (req, res) => {
 	});
 };
 
+const logoutUser = (req, res) => {
+	session.destroySession(req);
+	res.render("user/login");
+};
+
 module.exports = {
 	addUser,
-	loginUser
+	loginUser,
+	logoutUser,
 };

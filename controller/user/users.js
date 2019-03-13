@@ -34,7 +34,7 @@ const loginUser = (req, res) => {
 				return userModel.getUserDetails(req.body.email).then((data)=>{
 					session.createSession(req, data);
 					switch(data.type){
-					case 1: res.render("multisig/homeSuperAdmin",{success: true, data: data});
+					case 1: res.render("multisig/homeSuperAdmin",{success: true, data: data, layout: "dashboard.hbs"});
 						break;
 					case 2: res.render("multisig/homeUser",{success: true, data: data});
 						break;

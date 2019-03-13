@@ -21,6 +21,29 @@ const addAdmin = (req, res) => {
 	});
 };
 
+const approveRequestList = (req, res) => {
+	adminModel.approveRequestList().then((result)=>{
+		//res.send(result);
+		console.log(result);
+		res.render("multisig/homeSuperAdmin", {success: true, data: result, layout:"dashboard"});
+	}).catch((err)=>{
+		res.render("multisig/homeSuperAdmin", {success: false, error: err, layout:"dashboard"});
+	});
+};
+
+const approveLoginRequest = (req, res) => {
+	adminModel.approveLoginRequest(req.query.email).then(()=>{
+		return adminModel.approveRequestList().then((result)=>{
+			//res.send(result);
+			res.render("multisig/homeSuperAdmin", {success: true, data: result,  layout:"dashboard"});
+		});
+	}).catch((err)=>{
+		res.render("multisig/homeSuperAdmin", {success: false, error: err,  layout:"dashboard"});
+	});
+};
+
 module.exports = {
-	addAdmin
+	addAdmin,
+	approveLoginRequest,
+	approveRequestList
 };

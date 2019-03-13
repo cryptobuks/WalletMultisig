@@ -14,7 +14,6 @@ const mysqlConnection = () => {
 				if (err) {
 					reject(err);
 				} else {
-					console.log(connection);
 					resolve(connection);
 				}
 			});

@@ -1,0 +1,26 @@
+<div>
+    <div>
+        <h2>Approve User</h2>
+    </div>
+    <div>
+        <table>
+            <tr>
+                <th>Email</th>
+                <th>Rophsten Address</th>
+                <th>Local Ethereum Address</th>
+                <th>Type</th>
+                <th>Approve</th>
+            </tr>
+            {{#each data}}
+
+            <tr>
+                <th>{{this.email}}</th>
+                <th>{{this.rophston_address}}</th>
+                <th>{{this.local_blockchain_address}}</th>
+                <th>{{this.type}}</th>
+                <th><button><a href="/admin/approve?email={{this.email}}">Approve</a></button></th>
+            </tr>
+            {{/each}}
+        </table>
+    </div>
+</div>

@@ -10,4 +10,8 @@ router.get("/register", function(req, res) {
 router.get("/registeradmin", function(req, res) {
 	res.render("user/registerAdmin", { title: "Express" });
 });
+
+router.get("/partials/dashboard", function(req, res) {
+	res.render("layouts/dashboard", { title: "Express" });
+});
 module.exports = router;

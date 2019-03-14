@@ -1,6 +1,6 @@
 {
     "TokenContractAddress": {
-        "address": "0xbb92e22b34a801a5c33e3760775bd891c8d63ea5",
+        "address": "0xf972a42526a887429a9d736612c1852f9dcbddec",
         "abi": [
             {
                 "constant": true,
@@ -231,7 +231,7 @@
         ]
     },
     "MultiSigWalletContractAddress": {
-        "address": "0x3727857d99124c68004cff7ddef41caf51834470",
+        "address": "0x0e0c8cb98e5f9dfd53efde47e7af8d61fe5ecc66",
         "abi": [
             {
                 "constant": true,

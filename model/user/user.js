@@ -1,4 +1,4 @@
-const db = require("../../config/mysql");
+const db = require("../../lib/mysql");
 const query = require("../../migrations/query/user");
 
 /**
@@ -12,7 +12,7 @@ const addUser = (requestdata) => {
 				email: requestdata.email,
 				password: requestdata.password,
 				type: 2,
-				rophston_address: "cdcgdshcsjhcvsdj",
+				rophston_address: requestdata.account,
 				local_blockchain_address: "sdsadafsf",
 				active: 0
 			};

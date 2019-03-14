@@ -105,13 +105,7 @@ const onlyUser = (req, res, next) => {
 const allUser = (req, res, next) => {
 	if(req.session.user && req.session.user.active) 
 	{
-		if(req.session.user.type == 2) 
-		{
-			next();
-		}
-		else {
-			res.render("error", {success: false, error:"Please Login"});
-		}
+		next();
 	}
 	else 
 	{

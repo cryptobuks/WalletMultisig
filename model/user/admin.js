@@ -1,4 +1,4 @@
-const db = require("../../config/mysql");
+const db = require("../../lib/mysql");
 const query = require("../../migrations/query/user");
 
 /**
@@ -9,25 +9,19 @@ const addAdmin = (requestdata) => {
 	return new Promise((resolve, reject) => {
 		db.mysqlConnection().then((connection) => {
 			var data;
+			data = {
+				email: requestdata.email,
+				password: requestdata.password,
+				rophston_address:requestdata.account,
+				local_blockchain_address: "sdsadafsf"
+			};
 			if(requestdata.type){
-			 data = {
-					email: requestdata.email,
-					password: requestdata.password,
-					type: 1,
-					rophston_address: "cdcgdshcsjhcvsdj",
-					local_blockchain_address: "sdsadafsf",
-					active: 1
-				};
+				data.type = 1;
+				data.active = 1;
 			}
 			else {
-				 data = {
-					email: requestdata.email,
-					password: requestdata.password,
-					type: 3,
-					rophston_address: "cdcgdshcsjhcvsdj",
-					local_blockchain_address: "sdsadafsf",
-					active: 0
-				};
+				data.type = 3;
+				data.active = 0;
 			}
 			
 			connection.query(query.insertIntoUser, data, function (err, result) {

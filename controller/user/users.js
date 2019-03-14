@@ -2,6 +2,7 @@ const shared = require("../shared/authenticate");
 const userModel = require("../../model/user/user");
 const bcrypt = require("../../lib/crypto");
 const session = require("../../lib/session");
+const blockchain = require("../../model/shared/blockchain");
 /**
  * Function to add new user in the application
  * @param {object} req 
@@ -12,9 +13,13 @@ const addUser = (req, res) => {
 		return userModel.isEmailExist(req.body.email, 1).then(()=>{
 			return bcrypt.encryptPassword(req.body.password).then((hashPassword)=>{
 				req.body.password = hashPassword;
-				return userModel.addUser(req.body).then(()=>{
-					res.render("user/login",{success: true, message: "Successfully register. Please wait for Admin confirmation." });
+				return blockchain.createAccount(req.body).then((account)=>{
+					req.body.account = account;
+					return userModel.addUser(req.body).then(()=>{
+						res.render("user/login",{success: true, message: "Successfully register. Please wait for Admin confirmation." });
+					});
 				});
+				
 			});
 		});
 	}).catch((err)=>{

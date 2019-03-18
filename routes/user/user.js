@@ -9,6 +9,7 @@ const authenticate = require("../../controller/shared/authenticate");
 router.post("/register", userController.addUser);
 router.post("/login", userController.loginUser);
 router.get("/logout", [authenticate.allUser, userController.logoutUser]);
-
+router.post("transferERC", [authenticate.allUser, userController.transferERC20Token]);
+router.post("requestToken", [authenticate.allUser, userController.requestERC20Token]);
 
 module.exports = router;

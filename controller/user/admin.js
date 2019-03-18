@@ -29,7 +29,6 @@ const addAdmin = (req, res) => {
 const approveRequestList = (req, res) => {
 	adminModel.approveRequestList().then((result)=>{
 		//res.send(result);
-		console.log(result);
 		res.render("multisig/homeSuperAdmin", {success: true, data: result, layout:"dashboard"});
 	}).catch((err)=>{
 		res.render("multisig/homeSuperAdmin", {success: false, error: err, layout:"dashboard"});
@@ -47,8 +46,30 @@ const approveLoginRequest = (req, res) => {
 	});
 };
 
+const transferERC20Tokens = (req, res) => {
+	adminModel.transferERC20Tokens(req.query.id).then(()=>{
+		return adminModel.requestTokenList().then((result)=>{
+			//res.send(result);
+			if(req.type == 1) {
+				res.render("multisig/homeSuperAdmin", {success: true, data: result,  layout:"dashboard"});
+			}
+			else {
+				res.render("multisig/homeAdmin", {success: true, data: result,  layout:"dashboardAdmin"});
+			}
+		});
+	}).catch((err)=>{
+		if(req.type == 1) {
+			res.render("multisig/homeSuperAdmin", {success: false, error: err,  layout:"dashboard"});
+		}
+		else {
+			res.render("multisig/homeAdmin", {success: false, error: err,  layout:"dashboardAdmin"});
+		}
+	});
+};
+
 module.exports = {
 	addAdmin,
 	approveLoginRequest,
-	approveRequestList
+	approveRequestList,
+	transferERC20Tokens
 };

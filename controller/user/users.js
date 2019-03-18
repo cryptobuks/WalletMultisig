@@ -53,13 +53,47 @@ const loginUser = (req, res) => {
 	});
 };
 
+/**
+ * Function to destroy user session when user logout
+ * @param {object} req 
+ * @param {object} res 
+ */
 const logoutUser = (req, res) => {
 	session.destroySession(req);
 	res.render("user/login");
+}; 
+
+/**
+ * Function to transfer the ERC20 tokens to the requested user.
+ * @param {*} req 
+ * @param {*} res 
+ */
+const transferERC20Token = (req, res) => {
+	userModel.transferERC20Token(req).then((result)=>{
+		res.render("multisig/transfer", {success: true, result: result});
+	}).catch((error)=>{
+		res.render("multisig/transfer", {success: false, error: error});
+	});
 };
+
+/**
+ * Function to request the ERC20 tokens to Admin 
+ * @param {*} req 
+ * @param {*} res 
+ */
+const requestERC20Token = (req, res) => {
+	userModel.requestERC20Token(req).then((result)=>{
+		res.render("multisig/transfer", {success: true, result: result});
+	}).catch((error)=>{
+		res.render("multisig/transfer", {success: false, error: error});
+	});
+};
+
 
 module.exports = {
 	addUser,
 	loginUser,
 	logoutUser,
+	transferERC20Token,
+	requestERC20Token
 };

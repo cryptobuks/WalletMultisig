@@ -1,5 +1,7 @@
 const db = require("../../lib/mysql");
 const query = require("../../migrations/query/user");
+const querytoken = require("../../migrations/query/erc20Request");
+const uuid = require('uuidv4');
 
 /**
  * Function to insert user into database
@@ -13,7 +15,7 @@ const addUser = (requestdata) => {
 				password: requestdata.password,
 				type: 2,
 				rophston_address: requestdata.account,
-				local_blockchain_address: "sdsadafsf",
+				local_blockchain_address: requestdata.account,
 				active: 0
 			};
 			connection.query(query.insertIntoUser, data, function (err, result) {
@@ -70,7 +72,10 @@ const isEmailExist = (email, option) => {
 	});
 };
 
-
+/**
+ *  Function to get user email address
+ *  @param {string} email
+ */
 const getUserPassword = (email) => {
 	return new Promise((resolve, reject) => {
 		db.mysqlConnection().then((connection) => {
@@ -87,6 +92,10 @@ const getUserPassword = (email) => {
 	});
 };
 
+/**
+ * Function to get user details 
+ * @param {string} email 
+ */
 const getUserDetails = (email) => {
 	return new Promise((resolve, reject) => {
 		db.mysqlConnection().then((connection) => {
@@ -103,9 +112,34 @@ const getUserDetails = (email) => {
 	});
 };
 
+
+const requestERC20Token = (req) => {
+	return new Promise((resolve, reject) => {
+		db.mysqlConnection().then((connection) => {
+			var data = {
+				id: uuid(),
+				amount: req.body.amount,
+				status: 0,
+				email: req.session.user.email
+			};
+			connection.query(querytoken.newRequest, data, function (error, result) {
+				if (!error)
+					resolve(result[0]);
+				else
+					reject(error);
+			});
+			connection.release();
+		}).catch((error) => {
+			reject(error);
+		});
+	});
+};
+
 module.exports = {
 	addUser,
 	isEmailExist,
 	getUserPassword,
-	getUserDetails
+	getUserDetails,
+	requestERC20Token
+
 };

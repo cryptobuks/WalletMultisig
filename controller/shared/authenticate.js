@@ -103,6 +103,35 @@ const onlyUser = (req, res, next) => {
  * @param {Object} next 
  */
 const allUser = (req, res, next) => {
+	if(req.session.user) 
+	{
+		if(req.session.user.active) {
+			if(req.session.user.type == 1 || req.session.user.type == 3) 
+			{
+				next();
+			}
+			else {
+				res.render("error", {success: false, error:"Not a valid user"});
+			}
+		}
+		else {
+			res.render("error", {success: false, error:"Please Wait for Admin Verification"});
+
+		}
+	}
+	else 
+	{
+		res.render("error", {success: false, error:"Please Wait for Admin Verification"});
+	}
+};
+
+/**
+ * Function to check whether user's session is expired or not
+ * @param {Object} req 
+ * @param {Object} res 
+ * @param {Object} next 
+ */
+const allAdmin = (req, res, next) => {
 	if(req.session.user && req.session.user.active) 
 	{
 		next();
@@ -119,4 +148,5 @@ module.exports = {
 	onlyUser,
 	allUser,
 	onlyAdmin,
+	allAdmin
 };

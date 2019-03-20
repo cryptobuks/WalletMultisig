@@ -16,5 +16,5 @@ CREATE TABLE IF NOT EXISTS erc20_request(
     amount FLOAT NOT NULL,
     status TINYINT NOT NULL,
     email VARCHAR(30) NOT NULL,
-    FOREIGN KEY (email) REFERENCES user(email),
+    FOREIGN KEY (email) REFERENCES user(email)
 );

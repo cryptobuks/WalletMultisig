@@ -1,5 +1,8 @@
 const db = require("../../lib/mysql");
 const query = require("../../migrations/query/user");
+const erc20Query = require("../../migrations/query/erc20Request");
+const BlockchainErc20 = require("../shared/blockchain");
+const BlockchainMultisig = require("../shared/multisig");
 
 /**
  * Function to insert user into database
@@ -122,12 +125,49 @@ const approveLoginRequest = (email) => {
 };
 
 /**
- * Function to transfer ERC20 Token
+ * Function to get amount and user blockchain id from database
+ * @param {string} id 
  */
-const transferERC20Tokens = (email) => {
+const getRequestedUserDetails = (id) => {
 	return new Promise((resolve, reject) => {
 		db.mysqlConnection().then((connection) => {
-			connection.query(query.approveUser, [email],function (error, result) {
+			connection.query(erc20Query.getRequestById, [id],function (error, result) {
+				if (result) {
+					resolve(result[0]);
+				}
+				else {
+					reject(error);
+				}
+			});
+			connection.release();
+		}).catch((error) => {
+			reject(error);
+		});
+	});
+};
+
+/**
+ * This function will transfer 
+ * @param {Object} data  {amount and blockchain address}
+ */
+const transferERC20Tokens = (req, data) => {
+	return new Promise((resolve, reject) => {
+		let encodedABI = BlockchainErc20.encodedABIOfTransfer(data);
+		BlockchainMultisig.submitTransaction(req, encodedABI).then((result)=> {
+			resolve(result);
+		}).catch((error)=> {
+			reject(error);
+		});
+	});
+};
+
+/**
+ * Function to get All requested user details
+ */
+const getTransferRequestList = () => {
+	return new Promise((resolve, reject) => {
+		db.mysqlConnection().then((connection) => {
+			connection.query(erc20Query.getAllRequest, function (error, result) {
 				if (result) {
 					resolve(result);
 				}
@@ -147,5 +187,7 @@ module.exports = {
 	isEmailExist,
 	approveLoginRequest,
 	approveRequestList,
-	transferERC20Tokens
+	transferERC20Tokens,
+	getRequestedUserDetails,
+	getTransferRequestList
 };

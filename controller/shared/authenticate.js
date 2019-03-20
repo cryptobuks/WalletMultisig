@@ -106,7 +106,7 @@ const allUser = (req, res, next) => {
 	if(req.session.user) 
 	{
 		if(req.session.user.active) {
-			if(req.session.user.type == 1 || req.session.user.type == 3) 
+			if(req.session.user.type) 
 			{
 				next();
 			}

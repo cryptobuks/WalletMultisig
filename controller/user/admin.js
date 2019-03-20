@@ -26,6 +26,11 @@ const addAdmin = (req, res) => {
 	});
 };
 
+/**
+ * Function to get a list of all requested users
+ * @param {*} req 
+ * @param {*} res 
+ */
 const approveRequestList = (req, res) => {
 	adminModel.approveRequestList().then((result)=>{
 		//res.send(result);
@@ -35,6 +40,11 @@ const approveRequestList = (req, res) => {
 	});
 };
 
+/**
+ * Function to approve the login request of requested Admin and user
+ * @param {*} req 
+ * @param {*} res 
+ */
 const approveLoginRequest = (req, res) => {
 	adminModel.approveLoginRequest(req.query.email).then(()=>{
 		return adminModel.approveRequestList().then((result)=>{
@@ -46,24 +56,26 @@ const approveLoginRequest = (req, res) => {
 	});
 };
 
+/**
+ * Function to transfer ERC20 tokens to the requested user
+ * @param {object} req 
+ * @param {object} res 
+ */
 const transferERC20Tokens = (req, res) => {
-	adminModel.transferERC20Tokens(req.query.id).then(()=>{
-		return adminModel.requestTokenList().then((result)=>{
-			//res.send(result);
-			if(req.type == 1) {
-				res.render("multisig/homeSuperAdmin", {success: true, data: result,  layout:"dashboard"});
-			}
-			else {
-				res.render("multisig/homeAdmin", {success: true, data: result,  layout:"dashboardAdmin"});
-			}
+	adminModel.getRequestedUserDetails(req.query.id).then((userData)=>{
+		return adminModel.transferERC20Tokens(req, userData ).then((result)=>{
+			res.render("multisig/homeSuperAdmin", {success: true, data: result,  layout:"dashboard"});
 		});
 	}).catch((err)=>{
-		if(req.type == 1) {
-			res.render("multisig/homeSuperAdmin", {success: false, error: err,  layout:"dashboard"});
-		}
-		else {
-			res.render("multisig/homeAdmin", {success: false, error: err,  layout:"dashboardAdmin"});
-		}
+		res.render("multisig/homeSuperAdmin", {success: false, error: err,  layout:"dashboard"});
+	});
+};
+
+const listOfTransferRequest = (req, res) => {
+	adminModel.getTransferRequestList().then((result)=>{
+		res.render("multisig/homeSuperAdmin", {success: true, data: result,  layout:"dashboard"});
+	}).catch((err)=>{
+		res.render("multisig/homeSuperAdmin", {success: false, error: err,  layout:"dashboard"});
 	});
 };
 
@@ -71,5 +83,6 @@ module.exports = {
 	addAdmin,
 	approveLoginRequest,
 	approveRequestList,
-	transferERC20Tokens
+	transferERC20Tokens,
+	listOfTransferRequest
 };

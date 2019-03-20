@@ -83,9 +83,9 @@ const transferERC20Token = (req, res) => {
  */
 const requestERC20Token = (req, res) => {
 	userModel.requestERC20Token(req).then((result)=>{
-		res.render("multisig/transfer", {success: true, result: result});
+		res.render("multisig/requestToken", {success: true, message:"Successfully send request for tokens", result: result});
 	}).catch((error)=>{
-		res.render("multisig/transfer", {success: false, error: error});
+		res.render("multisig/requestToken", {success: false, message:"Error in requesting tokens", error: error});
 	});
 };
 

@@ -8,8 +8,15 @@ const authenticate = require("../../controller/shared/authenticate");
 /* GET users listing. */
 router.post("/register", userController.addUser);
 router.post("/login", userController.loginUser);
+router.post("/requestToken", [authenticate.allUser, userController.requestERC20Token]);
+router.post("/transferERC", [authenticate.allUser, userController.transferERC20Token]);
+
 router.get("/logout", [authenticate.allUser, userController.logoutUser]);
-router.post("transferERC", [authenticate.allUser, userController.transferERC20Token]);
-router.post("requestToken", [authenticate.allUser, userController.requestERC20Token]);
+
+//All Get API's
+router.get("/requestToken", [authenticate.allUser], (req, res) => {
+    res.render("multisig/requestToken", {layout: "dashboardUser.hbs"});
+});
+
 
 module.exports = router;

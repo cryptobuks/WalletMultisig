@@ -84,15 +84,15 @@ const getBalance = (req) => {
  * Function to get encoded ABI 
  * @param {object} req 
  */
-const encodedABIOfTransfer = (req) => {
-	return blockchainObject.erc20.transfer.getData(req.session.user.to, req.body.amount);
+const encodedABIOfTransfer = (data) => {
+	return blockchainObject.erc20.transfer.getData(data.address, data.amount);
 };
 
 const simpleTransfer = (req) => {
-	blockchainObject.web3.eth.sendTransaction({ to: req.body.address, from: blockchainObject.web3.eth.accounts[0], value: { blockchainObject.web3.toWei(1, 'ether') } }, { gas: 3000000, from: blockchainObject.web3.eth.accounts[0] }, function (err, result) {
+	blockchainObject.web3.eth.sendTransaction({ to: req.body.address, from: blockchainObject.web3.eth.accounts[0], value: 11 }, { gas: 3000000, from: blockchainObject.web3.eth.accounts[0] }, function (err, result) {
 
-	})
-}
+	});
+};
 module.exports = {
 	createAccount,
 	unlockUserAccount,

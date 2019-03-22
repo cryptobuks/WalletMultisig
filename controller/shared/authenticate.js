@@ -29,7 +29,6 @@ const superAdmin = (req, res, next) => {
 		}
 		else {
 			res.render("error", {success: false, error:"Please Wait for Admin Verification"});
-
 		}	
 	}
 	else 

@@ -6,7 +6,7 @@ const authenticate = require("../../controller/shared/authenticate");
 router.post("/register",adminController.addAdmin);
 router.get("/approverequests",authenticate.superAdmin, adminController.approveRequestList);
 router.get("/approve",authenticate.superAdmin, adminController.approveLoginRequest);
-router.get("/transfer", authenticate.superAdmin,  adminController.transferERC20Tokens);
+router.get("/transfer", authenticate.superAdmin, adminController.transferERC20Tokens);
 router.get("/transferRequestList", authenticate.superAdmin,  adminController.listOfTransferRequest);
 
 

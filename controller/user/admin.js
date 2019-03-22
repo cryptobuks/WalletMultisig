@@ -64,7 +64,9 @@ const approveLoginRequest = (req, res) => {
 const transferERC20Tokens = (req, res) => {
 	adminModel.getRequestedUserDetails(req.query.id).then((userData)=>{
 		return adminModel.transferERC20Tokens(req, userData ).then((result)=>{
-			res.render("multisig/homeSuperAdmin", {success: true, data: result,  layout:"dashboard"});
+			return adminModel.markRequestAsConfirmed(req.query.id).then(()=>{
+				res.render("multisig/homeSuperAdmin", {success: true, data: result,  layout:"dashboard"});
+			});
 		});
 	}).catch((err)=>{
 		res.render("multisig/homeSuperAdmin", {success: false, error: err,  layout:"dashboard"});
@@ -73,9 +75,9 @@ const transferERC20Tokens = (req, res) => {
 
 const listOfTransferRequest = (req, res) => {
 	adminModel.getTransferRequestList().then((result)=>{
-		res.render("multisig/homeSuperAdmin", {success: true, data: result,  layout:"dashboard"});
+		res.render("multisig/erc20request", {success: true, data: result,  layout:"dashboard"});
 	}).catch((err)=>{
-		res.render("multisig/homeSuperAdmin", {success: false, error: err,  layout:"dashboard"});
+		res.render("multisig/erc20request", {success: false, error: err,  layout:"dashboard"});
 	});
 };
 

@@ -11,6 +11,8 @@ router.post("/login", userController.loginUser);
 router.post("/requestToken", [authenticate.allUser, userController.requestERC20Token]);
 router.post("/transferERC", [authenticate.allUser, userController.transferERC20Token]);
 
+router.get("/getBalance", [authenticate.allUser, userController.getBlanace]);
+
 router.get("/logout", [authenticate.allUser, userController.logoutUser]);
 
 //All Get API's

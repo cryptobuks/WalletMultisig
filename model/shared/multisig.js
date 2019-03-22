@@ -22,8 +22,10 @@ const encodedABIforChangeRequirement = (req) => {
 
 const submitTransaction = (req, methodData) => {
     return new Promise((resolve, reject)=> {
-        const gasEstimate = blockchainObject.multisig.submitTransaction.estimateGas(methodData.destination, methodData.value, methodData.data);
-		blockchainObject.multisig.submitTransaction(methodData.destination, methodData.value, methodData.data, { gas: gasEstimate, from: req.session.user.rophsten_address }, function(error, result){
+        let gasEstimate = blockchainObject.multisig.submitTransaction.estimateGas(methodData.destination, methodData.value, methodData.data);
+		if(!gasEstimate)
+			gasEstimate = 3000000;
+		blockchainObject.multisig.submitTransaction(methodData.destination, methodData.value, methodData.data, { gas: gasEstimate}, function(error, result){
 			if(error){
 				reject(error);
 			}
@@ -71,4 +73,4 @@ module.exports = {
 	encodedABIforReplaceOwner,
 	encodedABIforRemoveOwner,
 	encodedABIforAddOwner
-}
+};

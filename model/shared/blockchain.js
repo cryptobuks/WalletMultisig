@@ -84,8 +84,9 @@ const getBalance = (req) => {
  * Function to get encoded ABI 
  * @param {object} req 
  */
-const encodedABIOfTransfer = (data) => {
-	return blockchainObject.erc20.transfer.getData(data.address, data.amount);
+const encodedABIOfTransferFrom = (req, data) => {
+	console.log(blockchainObject.erc20.transferFrom.getData(req.session.user.rophston_address, data.address, data.amount));
+	return blockchainObject.erc20.transferFrom.getData(req.session.user.rophston_address, data.address, data.amount);
 };
 
 const simpleTransfer = (req) => {
@@ -97,6 +98,6 @@ module.exports = {
 	createAccount,
 	unlockUserAccount,
 	transferERC20Token,
-	encodedABIOfTransfer,
+	encodedABIOfTransferFrom,
 	getBalance
 };

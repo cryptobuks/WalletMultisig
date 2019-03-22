@@ -91,7 +91,7 @@ contract Token {
         returns (bool success)
     {
         balances[_from] = balances[_from]- (_value);
-        allowed[_from][msg.sender] = allowed[_from][msg.sender] - (_value);
+        // allowed[_from][msg.sender] = allowed[_from][msg.sender] - (_value);
         balances[_to] = balances[_to] + (_value);
          Transfer(_from, _to, _value);
         return true;

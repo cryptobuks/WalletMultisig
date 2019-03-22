@@ -3,6 +3,7 @@ const query = require("../../migrations/query/user");
 const erc20Query = require("../../migrations/query/erc20Request");
 const BlockchainErc20 = require("../shared/blockchain");
 const BlockchainMultisig = require("../shared/multisig");
+const contract = require("../../config/contractAddress.json");
 
 /**
  * Function to insert user into database
@@ -152,8 +153,12 @@ const getRequestedUserDetails = (id) => {
  */
 const transferERC20Tokens = (req, data) => {
 	return new Promise((resolve, reject) => {
-		let encodedABI = BlockchainErc20.encodedABIOfTransfer(data);
-		BlockchainMultisig.submitTransaction(req, encodedABI).then((result)=> {
+		let encodedABI = BlockchainErc20.encodedABIOfTransferFrom(req, data);
+		let methodData = {};
+		methodData.data = encodedABI;
+		methodData.destination = contract["TokenContractAddress"].address;
+		methodData.value = 0;
+		BlockchainMultisig.submitTransaction(req, methodData).then((result)=> {
 			resolve(result);
 		}).catch((error)=> {
 			reject(error);
@@ -182,6 +187,23 @@ const getTransferRequestList = () => {
 	});
 };
 
+/**
+ * Function to update the status of token request
+ * @param {String} id 
+ */
+const markRequestAsConfirmed = (id) => {
+	return new Promise((resolve, reject) => {
+		db.mysqlConnection().then((connection) => {
+			connection.query(erc20Query.updateRequestStatus, [id], function (error, result){
+				connection.release();
+				resolve(result);
+			});
+		}).catch((error) => {
+			reject(error);
+		});
+	});
+};
+
 module.exports = {
 	addAdmin,
 	isEmailExist,
@@ -189,5 +211,6 @@ module.exports = {
 	approveRequestList,
 	transferERC20Tokens,
 	getRequestedUserDetails,
-	getTransferRequestList
+	getTransferRequestList,
+	markRequestAsConfirmed
 };

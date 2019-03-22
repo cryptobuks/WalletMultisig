@@ -83,17 +83,25 @@ const transferERC20Token = (req, res) => {
  */
 const requestERC20Token = (req, res) => {
 	userModel.requestERC20Token(req).then((result)=>{
-		res.render("multisig/requestToken", {success: true, message:"Successfully send request for tokens", result: result});
+		res.render("multisig/requestToken", {success: true, message:"Successfully send request for tokens", result: result, layout:"dashboardUser.hbs"});
 	}).catch((error)=>{
-		res.render("multisig/requestToken", {success: false, message:"Error in requesting tokens", error: error});
+		res.render("multisig/requestToken", {success: false, message:"Error in requesting tokens", error: error,  layout:"dashboardUser.hbs"});
 	});
 };
 
+const getBlanace = (req, res) => {
+	blockchain.getBalance(req).then((result)=>{
+		res.render("multisig/balance.hbs", {success: true, message:"Successfully send request for tokens", result: result.toString(), layout:"dashboardUser.hbs"});
+	}).catch((error)=>{
+		res.render("multisig/balance.hbs", {success: false, message:"Error in requesting tokens", error: error, layout:"dashboardUser.hbs"});
+	});
+};
 
 module.exports = {
 	addUser,
 	loginUser,
 	logoutUser,
 	transferERC20Token,
-	requestERC20Token
+	requestERC20Token,
+	getBlanace,
 };

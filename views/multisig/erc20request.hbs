@@ -1,0 +1,23 @@
+<div>
+    <div>
+        <h2>Approve Token Request</h2>
+    </div>
+    <div>
+        <table>
+            <tr>
+                <th>Email</th>
+                <th>Amount</th>
+                <th>Send</th>
+            </tr>
+            {{#each data}}
+
+            <tr>
+                <th>{{this.email}}</th>
+                <th>{{this.amount}}</th>
+
+                <th><button><a href="/admin/transfer?id={{this.id}}">Send</a></button></th>
+            </tr>
+            {{/each}}
+        </table>
+    </div>
+</div>

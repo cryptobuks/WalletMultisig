@@ -73,6 +73,11 @@ const transferERC20Tokens = (req, res) => {
 	});
 };
 
+/**
+ * Function will return List of users who requested for Tokens	
+ * @param {Object} req 
+ * @param {Object} res 
+ */
 const listOfTransferRequest = (req, res) => {
 	adminModel.getTransferRequestList().then((result)=>{
 		res.render("multisig/erc20request", {success: true, data: result,  layout:"dashboard"});
@@ -81,10 +86,52 @@ const listOfTransferRequest = (req, res) => {
 	});
 };
 
+/**
+ * Function will add new Owner in multisig wallet
+ * @param {Object} req 
+ * @param {Object} res 
+ */
+const addOwner = (req, res) => {
+	adminModel.multisigOwnerOperations(req, 1).then((result)=>{
+		res.render("multisig/addOwner.hbs", { success: true , data: result, message: "Successfully added new Owner"});
+	}).catch((error)=>{
+		res.render("multisig/addOwner.hbs", { success: true , error: error, message: "Failed to add new Owner"});
+	});
+};
+
+/**
+ * Function will remove Owner in multisig wallet
+ * @param {Object} req 
+ * @param {Object} res 
+ */
+const removeOwner = (req, res) => {
+	adminModel.multisigOwnerOperations(req, 2).then((result)=>{
+		res.render("multisig/removeOwner.hbs", { success: true , data: result, message: "Successfully remove Owner"});
+	}).catch((error)=>{
+		res.render("multisig/removeOwner.hbs", { success: true , error: error, message: "Failed to remove Owner"});
+	});
+};
+
+/**
+ * Function will add new Owner in multisig wallet
+ * @param {Object} req 
+ * @param {Object} res 
+ */
+const changeRequirement = (req, res) => {
+	adminModel.changeRequirement(req.query.count).then((result)=>{
+		res.render("multisig/removeOwner.hbs", { success: true , data: result, message: "Successfully changed Requirement"});
+	}).catch((error)=>{
+		res.render("multisig/removeOwner.hbs", { success: true , error: error, message: "Failed to change requirement"});
+	});
+};
+
 module.exports = {
 	addAdmin,
 	approveLoginRequest,
 	approveRequestList,
 	transferERC20Tokens,
-	listOfTransferRequest
+	listOfTransferRequest,
+	addOwner,
+	removeOwner,
+	changeRequirement
 };

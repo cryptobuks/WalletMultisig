@@ -91,7 +91,15 @@ const requestERC20Token = (req, res) => {
 
 const getBlanace = (req, res) => {
 	blockchain.getBalance(req).then((result)=>{
-		res.render("multisig/balance.hbs", {success: true, message:"Successfully send request for tokens", result: result.toString(), layout:"dashboardUser.hbs"});
+		if(req.session.user.type == 1) {
+			res.render("multisig/balance.hbs", {success: true, message:"Successfully send request for tokens", result: result.toString(), layout:"dashboard.hbs"});
+		}
+		else if(req.session.user.type == 1) {
+			res.render("multisig/balance.hbs", {success: true, message:"Successfully send request for tokens", result: result.toString(), layout:"dashboardUser.hbs"});
+		}
+		else {
+			res.render("multisig/balance.hbs", {success: true, message:"Successfully send request for tokens", result: result.toString(), layout:"dashboardAdmin.hbs"});
+		}
 	}).catch((error)=>{
 		res.render("multisig/balance.hbs", {success: false, message:"Error in requesting tokens", error: error, layout:"dashboardUser.hbs"});
 	});

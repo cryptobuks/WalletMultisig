@@ -204,6 +204,34 @@ const markRequestAsConfirmed = (id) => {
 	});
 };
 
+/**
+ * Function to add new owner in multisig wallet.
+ * @param {*} req 
+ * @param {*} flag flag 1(addOwner) flag=2 removeOwner 
+ */
+const multisigOwnerOperations = (req, flag) => {
+	return new Promise((resolve, reject)=>{
+		let encodedABI = "";
+		switch(flag) {
+		case 1: encodedABI = BlockchainMultisig.encodedABIforAddOwner(req.query.address);
+			break;
+		case 2: encodedABI = BlockchainMultisig.encodedABIforRemoveOwner(req.query.address);
+			break;
+		case 3: encodedABI = BlockchainMultisig.encodedABIforChangeRequirement(req.query.count);
+			break;
+		}
+		let methodData = {};
+		methodData.data = encodedABI;
+		methodData.destination = contract["MultiSigWalletContractAddress"].address;
+		methodData.value = 0;
+		BlockchainMultisig.submitTransaction(req, methodData).then((result)=> {
+			resolve(result);
+		}).catch((error)=> {
+			reject(error);
+		});
+	});
+};
+
 module.exports = {
 	addAdmin,
 	isEmailExist,
@@ -212,5 +240,6 @@ module.exports = {
 	transferERC20Tokens,
 	getRequestedUserDetails,
 	getTransferRequestList,
-	markRequestAsConfirmed
+	markRequestAsConfirmed,
+	multisigOwnerOperations,
 };

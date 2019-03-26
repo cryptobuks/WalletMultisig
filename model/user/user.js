@@ -1,7 +1,7 @@
 const db = require("../../lib/mysql");
 const query = require("../../migrations/query/user");
 const querytoken = require("../../migrations/query/erc20Request");
-const uuid = require('uuidv4');
+const uuid = require("uuidv4");
 
 /**
  * Function to insert user into database

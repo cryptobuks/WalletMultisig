@@ -17,7 +17,7 @@ router.get("/logout", [authenticate.allUser, userController.logoutUser]);
 
 //All Get API's
 router.get("/requestToken", [authenticate.allUser], (req, res) => {
-    res.render("multisig/requestToken", {layout: "dashboardUser.hbs"});
+	res.render("multisig/requestToken", {layout: "dashboardUser.hbs"});
 });
 
 

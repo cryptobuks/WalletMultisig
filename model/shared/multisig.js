@@ -31,7 +31,7 @@ const submitTransaction = (req, methodData) => {
 		let gasEstimate = blockchainObject.multisig.submitTransaction.estimateGas(methodData.destination, methodData.value, methodData.data);
 		if(!gasEstimate)
 			gasEstimate = 3000000;
-		blockchainObject.multisig.submitTransaction(methodData.destination, methodData.value, methodData.data, { gas: gasEstimate}, function(error, result){
+		blockchainObject.multisig.submitTransaction(methodData.destination, methodData.value, methodData.data, { gas: gasEstimate, from: req.session.user.rophsten_address}, function(error, result){
 			if(error){
 				logger.error("Error in submitTransaction of multisig" + error);
 				reject(error);
@@ -82,6 +82,57 @@ const revokeConfirmation = (req) => {
 	});
 };
 
+/**
+ * Function to get all owners details
+ */
+const getOwners = () => {
+	return new Promise((resolve, reject)=> {
+		blockchainObject.multisig.getOwners(function(error, result){
+			if(error){
+				reject(error);
+			}
+			else {
+				logger.info("Successfully fetch owners details "+ result);
+				resolve(result);
+			}
+		});
+	});
+};
+
+/**
+ * Function to get transaction counts
+ */
+const getTransactionCount = () => {
+	return new Promise((resolve, reject)=> {
+		blockchainObject.multisig.transactionCount.call(function(error, result){
+			if(error){
+				reject(error);
+			}
+			else {
+				logger.info("Successfully fetch owners details "+ result);
+				resolve(result);
+			}
+		});
+	});
+};
+
+/**
+ * Function to get All transactions details
+ * @param {int} id 
+ */
+const getTransactions = (id) => {
+	return new Promise((resolve, reject)=> {
+		blockchainObject.multisig.transactions.call(id, function(error, result){
+			if(error){
+				reject(error);
+			}
+			else {
+				logger.info("Successfully fetch owners details "+ result);
+				resolve(result);
+			}
+		});
+	});
+};
 
 module.exports = { 
 	revokeConfirmation,
@@ -90,5 +141,8 @@ module.exports = {
 	encodedABIforChangeRequirement,
 	encodedABIforReplaceOwner,
 	encodedABIforRemoveOwner,
-	encodedABIforAddOwner
+	encodedABIforAddOwner,
+	getOwners,
+	getTransactionCount,
+	getTransactions
 };

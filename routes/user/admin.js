@@ -8,20 +8,15 @@ router.get("/approverequests",authenticate.superAdmin, adminController.approveRe
 router.get("/approve",authenticate.superAdmin, adminController.approveLoginRequest);
 router.get("/transfer", authenticate.superAdmin, adminController.transferERC20Tokens);
 router.get("/transferRequestList", authenticate.superAdmin,  adminController.listOfTransferRequest);
-router.get("/addOwnerPage", authenticate.superAdmin, (req, res) => {
-	res.render("multisig/addOwner.hbs",{layout: "dashboard"});
-});
+router.get("/addOwnerPage", authenticate.superAdmin, adminController.getOwnerList);
 router.post("/addOwner", authenticate.superAdmin, adminController.addOwner);
-
-router.get("/removeOwnerPage", authenticate.superAdmin, (req, res) => {
-	res.render("multisig/removeOwner.hbs",{layout: "dashboard"});
-});
-router.post("/removeOwner", authenticate.superAdmin, adminController.removeOwner);
+router.get("/removeOwner", authenticate.superAdmin, adminController.removeOwner);
 
 router.get("/changeRequirementPage", authenticate.superAdmin, (req, res) => {
 	res.render("multisig/changeRequirement.hbs",{layout: "dashboard"});
 });
 router.post("/chnageRequirement", authenticate.superAdmin, adminController.changeRequirement);
+router.get("/getAddOwnerEvent", adminController.addOwnerEvent);
 
 
 

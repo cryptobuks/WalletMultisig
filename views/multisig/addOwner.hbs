@@ -1,11 +1,41 @@
-<div>
-    <div class="form-style-6">
-        <h1>Request Token</h1>
-        <form method="post" action="/admin/addOwner">
-            <input type="text" name="address" placeholder="Enter Address of the owner" />
-            {{!-- <input type="email" name="field2" placeholder="Email Address" />
-<textarea name="field3" placeholder="Type your Message"></textarea> --}}
-            <input type="submit" value="Submit" />
-        </form>
+>
+<div id="myModal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div>
+            <div class="form-style-6">
+                <h1>Add New Owner</h1>
+                <form method="post" action="/admin/addOwner">
+                    <input type="text" name="address" placeholder="Enter Address of the owner" />
+                    <input type="submit" value="Submit" />
+                </form>
+            </div>
+        </div>
     </div>
+
+</div>
+
+<div>
+    <div>
+        <h2>Owner List</h2>
+    </div>
+    <div>
+        <table>
+            <tr>
+                <th>Address</th>
+                <th>Amount</th>
+                <th>Remove</th>
+            </tr>
+            {{#each data}}
+            <tr>
+                <th>{{this}}</th>
+                <th>1</th>
+                <th><button><a href="/admin/removeOwner?address={{this}}">Remove</a></button></th>
+            </tr>
+            {{/each}}
+        </table>
+    </div>
+    <button id="myBtn">Add Owner</button>
 </div>

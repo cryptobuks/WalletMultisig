@@ -89,6 +89,11 @@ const requestERC20Token = (req, res) => {
 	});
 };
 
+/**
+ * Function to get balance of currently login User
+ * @param {Object} req 
+ * @param {Object} res 
+ */
 const getBlanace = (req, res) => {
 	blockchain.getBalance(req).then((result)=>{
 		if(req.session.user.type == 1) {

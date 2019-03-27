@@ -3,6 +3,7 @@ const query = require("../../migrations/query/user");
 const erc20Query = require("../../migrations/query/erc20Request");
 const BlockchainErc20 = require("../shared/blockchain");
 const BlockchainMultisig = require("../shared/multisig");
+const BlockchainEvents = require("../shared/blockchainEvents");
 const contract = require("../../config/contractAddress.json");
 
 /**
@@ -213,7 +214,7 @@ const multisigOwnerOperations = (req, flag) => {
 	return new Promise((resolve, reject)=>{
 		let encodedABI = "";
 		switch(flag) {
-		case 1: encodedABI = BlockchainMultisig.encodedABIforAddOwner(req.query.address);
+		case 1: encodedABI = BlockchainMultisig.encodedABIforAddOwner(req.body.address);
 			break;
 		case 2: encodedABI = BlockchainMultisig.encodedABIforRemoveOwner(req.query.address);
 			break;
@@ -221,16 +222,40 @@ const multisigOwnerOperations = (req, flag) => {
 			break;
 		}
 		let methodData = {};
+		console.log(">>>>>>>>>>>>>>>>>>",encodedABI)
 		methodData.data = encodedABI;
 		methodData.destination = contract["MultiSigWalletContractAddress"].address;
 		methodData.value = 0;
 		BlockchainMultisig.submitTransaction(req, methodData).then((result)=> {
-			resolve(result);
+			console.log(result)
+			return BlockchainMultisig.getOwners().then((result1)=> {
+				resolve(result1);
+			});
 		}).catch((error)=> {
 			reject(error);
 		});
 	});
 };
+
+const getOwnerList = () => {
+	return new Promise((resolve, reject) => {
+		BlockchainMultisig.getOwners().then((result) => {
+			resolve(result);
+		}).catch((error)=>{
+			reject(error);
+		});
+	});
+};
+
+const addOwnerEvent = () => {
+	return new Promise((resolve, reject) => {
+		BlockchainEvents.getAllEvents().then((result) => {
+			resolve(result);
+		}).catch((error)=>{
+			reject(error);
+		});
+	}); 
+}
 
 module.exports = {
 	addAdmin,
@@ -242,4 +267,6 @@ module.exports = {
 	getTransferRequestList,
 	markRequestAsConfirmed,
 	multisigOwnerOperations,
+	getOwnerList,
+	addOwnerEvent
 };

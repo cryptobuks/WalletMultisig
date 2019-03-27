@@ -93,9 +93,9 @@ const listOfTransferRequest = (req, res) => {
  */
 const addOwner = (req, res) => {
 	adminModel.multisigOwnerOperations(req, 1).then((result)=>{
-		res.render("multisig/addOwner.hbs", { success: true , data: result, message: "Successfully added new Owner"});
+		res.render("multisig/addOwner.hbs", { success: true , data: result, message: "Successfully added new Owner", layout: "dashboard"});
 	}).catch((error)=>{
-		res.render("multisig/addOwner.hbs", { success: true , error: error, message: "Failed to add new Owner"});
+		res.render("multisig/addOwner.hbs", { success: true , error: error, message: "Failed to add new Owner", layout: "dashboard"});
 	});
 };
 
@@ -103,12 +103,12 @@ const addOwner = (req, res) => {
  * Function will remove Owner in multisig wallet
  * @param {Object} req 
  * @param {Object} res 
- */
+ */	
 const removeOwner = (req, res) => {
 	adminModel.multisigOwnerOperations(req, 2).then((result)=>{
-		res.render("multisig/removeOwner.hbs", { success: true , data: result, message: "Successfully remove Owner"});
+		res.render("multisig/addOwner.hbs", { success: true , data: result, message: "Successfully remove Owner", layout: "dashboard"});
 	}).catch((error)=>{
-		res.render("multisig/removeOwner.hbs", { success: true , error: error, message: "Failed to remove Owner"});
+		res.render("multisig/addOwner.hbs", { success: true , error: error, message: "Failed to remove Owner", layout: "dashboard"});
 	});
 };
 
@@ -125,6 +125,21 @@ const changeRequirement = (req, res) => {
 	});
 };
 
+const getOwnerList = (req, res) => {
+	adminModel.getOwnerList().then((result) => {
+		res.render("multisig/addOwner.hbs", { success: true , data: result, message: "Successfully added new Owner", layout: "dashboard"});
+	}).catch((error)=>{
+		res.render("multisig/removeOwner.hbs", { success: true , error: error, message: "Failed to remove Owner"});
+	});
+};
+
+const addOwnerEvent = (req, res) => {
+	adminModel.addOwnerEvent().then((result)=>{
+		res.send(result);
+	}).catch((error)=>{
+		res.send(error);
+	});
+};
 module.exports = {
 	addAdmin,
 	approveLoginRequest,
@@ -133,5 +148,7 @@ module.exports = {
 	listOfTransferRequest,
 	addOwner,
 	removeOwner,
-	changeRequirement
+	changeRequirement,
+	getOwnerList,
+	addOwnerEvent,
 };

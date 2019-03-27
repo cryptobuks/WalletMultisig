@@ -1,4 +1,4 @@
-pragma solidity ^0.4.15;
+pragma solidity ^0.4.24;
 
 
 /// @title Multisignature wallet - Allows multiple parties to agree on transactions before execution.
@@ -44,42 +44,42 @@ contract MultiSigWallet {
      *  Modifiers
      */
     modifier onlyWallet() {
-        require(msg.sender == address(this));
+        require(msg.sender == address(this), "Invalid Owner");
         _;
     }
 
     modifier ownerDoesNotExist(address owner) {
-        require(!isOwner[owner]);
+        require(!isOwner[owner], "Owner is already Exists");
         _;
     }
 
     modifier ownerExists(address owner) {
-        require(isOwner[owner]);
+        require(isOwner[owner], "In MultisigWallet: Owner is not exists");
         _;
     }
 
     modifier transactionExists(uint transactionId) {
-        require(transactions[transactionId].destination != 0);
+        require(transactions[transactionId].destination != 0, "In MultisigWallet: Transaction is aready exists");
         _;
     }
 
     modifier confirmed(uint transactionId, address owner) {
-        require(confirmations[transactionId][owner]);
+        require(confirmations[transactionId][owner], "In MultisigWallet: TRansaction is not confirmed");
         _;
     }
 
     modifier notConfirmed(uint transactionId, address owner) {
-        require(!confirmations[transactionId][owner]);
+        require(!confirmations[transactionId][owner], "In MultisigWallet: TRansaction is confirmed");
         _;
     }
 
     modifier notExecuted(uint transactionId) {
-        require(!transactions[transactionId].executed);
+        require(!transactions[transactionId].executed,"In MultisigWallet: TRansaction is executed");
         _;
     }
 
     modifier notNull(address _address) {
-        require(_address != 0);
+        require(_address != 0, "In MultisigWallet: address is null");
         _;
     }
 
@@ -87,7 +87,7 @@ contract MultiSigWallet {
         require(ownerCount <= MAX_OWNER_COUNT
             && _required <= ownerCount
             && _required != 0
-            && ownerCount != 0);
+            && ownerCount != 0, "In MultisigWallet: Not a valid requirement");
         _;
     }
 

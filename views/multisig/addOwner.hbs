@@ -1,6 +1,4 @@
->
 <div id="myModal" class="modal">
-
     <!-- Modal content -->
     <div class="modal-content">
         <span class="close">&times;</span>
@@ -14,10 +12,41 @@
             </div>
         </div>
     </div>
+</div>
+<div id="myModalForChangeRwquirement" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+        <span class="close" id="close1">&times;</span>
+        <div>
+            <div class="form-style-6">
+                <h1>Change Requirement</h1>
+                <form method="post" action="/admin/changeRequirement">
+                    <input type="text" name="count" placeholder="Enter number of confirmation required" />
+                    <input type="submit" value="Submit" />
+                </form>
+            </div>
+        </div>
+    </div>
 
 </div>
+<div id="myModalForReplaceOwner" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+        <span class="close" id="closeForReplaceOwner">&times;</span>
+        <div>
+            <div class="form-style-6">
+                <h1>Replace Owner</h1>
+                <form method="post" action="/admin/addOwner">
+                    <input type="text" name="count" placeholder="Enter Old Address" />
+                    <input type="text" name="count" placeholder="Enter New Address" />
+                    <input type="submit" value="Submit" />
+                </form>
+            </div>
+        </div>
+    </div>
 
-<div>
+</div>
+<div class="tableFormat">
     <div>
         <h2>Owner List</h2>
     </div>
@@ -38,4 +67,7 @@
         </table>
     </div>
     <button id="myBtn">Add Owner</button>
+    <button id="myBtn1">Change Requirement</button>
+    <button id="myBtnForReplaceOwner">Replace Owner</button>
+
 </div>

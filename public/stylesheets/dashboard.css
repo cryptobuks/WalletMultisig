@@ -307,3 +307,7 @@ tr:nth-child(even) {
   text-decoration: none;
   cursor: pointer;
 }
+
+.tableFormat {
+  margin:100px;
+}
